@@ -7,7 +7,10 @@ https://adfinis.com/en/blog/decrypt-luks-devices-remotely-via-dropbear-ssh/
 https://serverfault.com/questions/617398/is-there-a-way-to-see-the-execution-tree-of-systemd
 
 do I need to rebuild initramfs maybe, but which files are gona be included in it?
+=> no at least if you are fine with typing the password in twice. (Script is only loaded later - root fs will be decrypted earlier)
+
 or is it included if I put my script in /etc/systemd/system ?
+=> again see option above
 
 another option:
 just create a luks encrypted ext4 partition that is mounted at first (put it as initrootfs or so in the fstab)
@@ -19,3 +22,6 @@ once thats done unmount that partition and close the luks
 sadly I'm gona switch to doing something else first now.
 but this would be really useful for my multiple encrypted zfs roots on the freshly installed proxmox 8 thats just using systemd-boot with efi
 (pretty stock install with zfs encyption enabled by following https://gist.github.com/yvesh/ae77a68414484c8c79da03c4a4f6fd55 and applying that for the data root as well)
+
+Update:
+This works good enough for now so I'll leave it again.

@@ -10,7 +10,7 @@ OnFailure=emergency.target
 Type=oneshot
 RemainAfterExit=yes
 
-ExecStart=zfs-multi-mount.sh --systemd --no-mount
+ExecStart=/usr/local/sbin/zfs-multi-mount.sh --systemd --no-mount
 
 [Install]
 WantedBy=zfs-mount.service
