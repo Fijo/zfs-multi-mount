@@ -18,26 +18,29 @@ This script can be used in a systemd service to unlock encrypted datasets during
 ### Use within systemd context (in a systemd service)
 `zfs-multi-mount.sh --systemd`
 
-#### Example of a systemd service file using this script to unlock ZFS datasets
-/etc/systemd/system/zfs-load-key.service
+### Install as systemd service
+```bash
+sudo sh ./install.sh
 ```
-[Unit]
-Description=Import keys for all datasets
-DefaultDependencies=no
-Before=zfs-mount.service
-Before=systemd-user-sessions.service
-After=zfs-import.target
-OnFailure=emergency.target
 
-[Service]
-Type=oneshot
-RemainAfterExit=yes
+### Missing zpools
+For me this service used to not unlock the datasets on my second zpool.
 
-ExecStart=zfs-multi-mount.sh --systemd --no-mount
+It seams the issue was that, this zpool was never imported manually at such an early booting stage.
+Afterwards it the auto import/ mount/ unlock worked flawlessly!
 
-[Install]
-WantedBy=zfs-mount.service
-```
+This is how I recommend performing this one time manual zpool import:
+1. Open the `/usr/local/sbin/zfs-load-key.service` in a text editor.
+2. Go to the line starting with `ExecStart`
+3. Add an extra argument containing the name of the zpool, you are missing at the end.
+   It will then try to load that zpools root dataset on the next boot.
+   Due to the fact, that it's not importet it will not be found and fail, giving you the option to drop into a root shell for troubleshooting.
+4. Reboot and get into that troubleshooting shell.
+5. Run `zpool import <myPoolName>`
+6. Undo the changes you made to `/usr/local/sbin/zfs-multi-mount.sh` again.
+7. Manually run `/usr/local/sbin/zfs-multi-mount.sh --systemd --no-mount` for your curiosity.
+8. Reboot again.
 
 ## Credit
 Created and maintained by Pawel Ginalski (https://gbyte.dev).
+Updated by Jonas Fischer (https://fijo.dev)
