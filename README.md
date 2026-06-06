@@ -1,4 +1,7 @@
 # zfs-multi-mount
+
+**⚠️ This repository was moved to <https://codeberg.org/Fijo/zfs-multi-mount>!**
+
 Mounts several ZFS datasets while asking for encryption passphrase as rarely as possible. If the same encryption passphrase is used on several datasets, it will ask once. For people who feel very confident about that one passphrase.
 
 I generally do not endorse reusing passwords, but there are edge cases, like splitting up a pool into datasets while not using an encryption root due to some topology constraint, but still needing the convenience of a single passphrase.
